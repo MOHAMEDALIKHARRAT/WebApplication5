@@ -18,6 +18,14 @@ namespace WebApplication5.Data
         public DbSet<VisitChecklist> VisitChecklists { get; set; }
         public DbSet<VisitOrderItem> VisitOrderItems { get; set; }
         public DbSet<CommercialTask> CommercialTasks { get; set; }
+        public DbSet<CompetitorProduct> CompetitorProducts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<Quote> Quotes { get; set; }
+        public DbSet<QuoteLine> QuoteLines { get; set; }
+        public DbSet<Recovery> Recoveries { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

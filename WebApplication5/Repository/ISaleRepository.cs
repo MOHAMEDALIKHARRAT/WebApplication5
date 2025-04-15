@@ -9,6 +9,6 @@ namespace WebApplication5.Repository
         Task<Sale> AddAsync(Sale sale);
         Task<bool> UpdateAsync(Sale sale);
         Task<bool> DeleteAsync(int id);
-
+        Task<IEnumerable<Tiers>> GetTiersByCommercialAsync(string commercialId);
     }
 }

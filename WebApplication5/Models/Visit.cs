@@ -7,27 +7,13 @@ namespace WebApplication5.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
-        public string CommercialId { get; set; } = string.Empty;
-
-        [Required]
+        public string CommercialCref { get; set; } = string.Empty;
         public int TiersId { get; set; }
-
-        [Required]
-        public DateTime ScheduledDate { get; set; }
-
-        public DateTime? CompletedDate { get; set; }
-
-        public string Report { get; set; } = string.Empty;
-
-        public bool IsValidated { get; set; } = false;
-
-        public List<VisitChecklist> Objectives { get; set; } = new List<VisitChecklist>();
-
-        [ForeignKey("CommercialId")]
+        public DateTime VisitDate { get; set; }
+        public bool IsCompleted { get; set; }
+        public string? Notes { get; set; }
+        [ForeignKey("CommercialCref")]
         public Commercial Commercial { get; set; }
-
         [ForeignKey("TiersId")]
         public Tiers Client { get; set; }
     }

@@ -4,10 +4,9 @@ namespace WebApplication5.Repository
 {
     public interface IVisitRepository
     {
-        Task<Visit> CreateVisitAsync(Visit visit);
-        Task<Visit?> GetVisitByIdAsync(int id);
-        Task<IEnumerable<Visit>> GetVisitsByCommercialAsync(string commercialId);
-        Task<bool> UpdateVisitAsync(Visit visit);
-        Task<bool> DeleteVisitAsync(int id);
+        Task<Visit> CreateAsync(Visit visit);
+        Task<Visit?> GetByIdAsync(int id);
+        Task<List<Visit>> GetByCommercialAsync(string commercialCref);
+        Task UpdateAsync(Visit visit);
     }
 }

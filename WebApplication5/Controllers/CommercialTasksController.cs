@@ -8,7 +8,7 @@ namespace WebApplication5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class CommercialTasksController : ControllerBase
     {
         private readonly ICommercialTaskRepository _taskRepository;
@@ -21,7 +21,7 @@ namespace WebApplication5.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "AdminOrManager")]
+ 
         public async Task<IActionResult> CreateTask([FromBody] CommercialTaskDto taskDto)
         {
             var task = new CommercialTask
@@ -67,7 +67,7 @@ namespace WebApplication5.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = "CommercialOnly")]
+
         public async Task<IActionResult> UpdateTask(int id, [FromBody] CommercialTaskUpdateDto updateDto)
         {
             var task = await _taskRepository.GetTaskByIdAsync(id);

@@ -2,12 +2,12 @@
 using WebApplication5.Data;
 using WebApplication5.Models;
 
-namespace WebApplication5.Repository // Note: Namespace corrected to match your provided code
+namespace WebApplication5.Repository
 {
     public class SaleRepository : ISaleRepository
     {
         private readonly AppDbContext _context;
-        private readonly ILogger<SaleRepository> _logger; // Added for logging
+        private readonly ILogger<SaleRepository> _logger;
 
         public SaleRepository(AppDbContext context, ILogger<SaleRepository> logger)
         {
@@ -21,7 +21,7 @@ namespace WebApplication5.Repository // Note: Namespace corrected to match your 
             {
                 _logger.LogInformation("Retrieving all sales");
                 var sales = await _context.Sales
-                    .Include(s => s.Client) // Include the navigation property 'Client'
+                    .Include(s => s.Client)
                     .ToListAsync();
                 _logger.LogInformation($"Retrieved {sales.Count} sales");
                 return sales;
@@ -39,7 +39,7 @@ namespace WebApplication5.Repository // Note: Namespace corrected to match your 
             {
                 _logger.LogInformation($"Retrieving sale with ID: {id}");
                 var sale = await _context.Sales
-                    .Include(s => s.Client) // Include the navigation property 'Client'
+                    .Include(s => s.Client)
                     .FirstOrDefaultAsync(s => s.Id == id);
                 if (sale == null)
                 {
@@ -122,6 +122,32 @@ namespace WebApplication5.Repository // Note: Namespace corrected to match your 
                 _logger.LogError(ex, $"Error deleting sale with ID: {id}");
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<Tiers>> GetTiersByCommercialAsync(string commercialId)
+        {
+            _logger.LogInformation($"Fetching Tiers for Commercial {commercialId}");
+
+            // Get distinct TiersIds from Sales where DocRepresentant matches the CommercialId
+            var tiersIds = await _context.Sales
+                .Where(s => s.DocRepresentant == commercialId)
+                .Select(s => s.TiersId)
+                .Distinct()
+                .ToListAsync();
+
+            if (!tiersIds.Any())
+            {
+                _logger.LogInformation($"No Tiers found for Commercial {commercialId} in Sales table.");
+                return Enumerable.Empty<Tiers>();
+            }
+
+            // Fetch the Tiers records for the retrieved TiersIds
+            var tiers = await _context.Tiers
+                .Where(t => tiersIds.Contains(t.Id))
+                .ToListAsync();
+
+            _logger.LogInformation($"Found {tiers.Count} Tiers for Commercial {commercialId}.");
+            return tiers;
         }
     }
 }
